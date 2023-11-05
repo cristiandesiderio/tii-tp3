@@ -24,20 +24,15 @@
         <!-- Luz para la escena -->
         <a-light type="directional" position="-5 5 5" target="#weatherMarker"></a-light>
         <a-assets>
-            <a-asset-item id="optimerBoldFont"
-                src="https://rawgit.com/mrdoob/three.js/dev/examples/fonts/optimer_bold.typeface.json"></a-asset-item>
-            <a-mixin id="boldFont" text="font: #optimerBoldFont"></a-mixin>
-        </a-assets>
-
+            <a-asset-item id="optimerBoldFont" src="https://rawgit.com/mrdoob/three.js/dev/examples/fonts/optimer_bold.typeface.json"></a-asset-item>
+          </a-assets>
 
         <a-marker type="pattern" url="markers/temp.patt" id="weatherMarker">
-            <!-- <a-box position="0 0.5 0" color="#4CC3D9" material="opacity: 0.2;"> -->
             <a-entity position="0 0.25 0">
-                <!-- Esfera de color anaranjado con sombra -->
-                <a-sphere id="temperatureSphere" radius="0.1" color="orange" position="-0.25 0.25 -0.5"
+                <a-sphere id="temperatureSphere" radius="0.1" color="orange" position="0 0.75 0"
                     shadow="cast: true; receive: true"></a-sphere>
 
-                <a-entity id="temperatureText" mixin="boldFont" text-geometry="Temp" material="color: orange;" position="-1 0.25 0"
+                <a-entity id="temperatureText" text-geometry="value: Temp; font: #optimerBoldFont" material="color: orange;" position="-0.75 0 0"
                     shadow="cast: true; receive: true"></a-entity>
             </a-entity>
             <!-- </a-box> -->
@@ -101,6 +96,7 @@
                     .then(response => response.json())
                     .then(data => {
                         return {
+
                             temp: data.main.temp,
                             condicion: data.weather[0].id  // Accede al ID del tipo de clima
                         };
