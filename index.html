@@ -20,14 +20,14 @@
 
 
     <!-- AR.js Scene -->
-    <a-scene embedded arjs='sourceType: webcam;' vr-mode-ui="enabled: false" device-orientation-permission-ui>
+    <a-scene markerhandler embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;' vr-mode-ui="enabled: false" device-orientation-permission-ui>
         <!-- Luz para la escena -->
         <a-light type="directional" position="-5 5 5" target="#weatherMarker"></a-light>
         <a-assets>
             <a-asset-item id="optimerBoldFont" src="https://rawgit.com/mrdoob/three.js/dev/examples/fonts/optimer_bold.typeface.json"></a-asset-item>
           </a-assets>
 
-        <a-marker type="pattern" url="markers/temp.patt" id="weatherMarker">
+        <a-marker type="pattern" url="markers/pattern-Temp.patt" id="weatherMarker">
             <a-entity position="0 0.25 0">
                 <a-sphere id="temperatureSphere" radius="0.25" color="orange" position="0 1 0"
                     shadow="cast: true; receive: true"></a-sphere>
