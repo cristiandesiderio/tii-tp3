@@ -93,7 +93,7 @@
 
             // Función para consultar la API de OpenWeatherMap
             function getWeatherData() {
-                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=-34.9215&lon=-57.9545&appid=5dd5b895dbbb3e052c2aa0c1586a263b&units=metric`;
+                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=-34.9215&lon=-57.9545&appid=<>&units=metric`;
 
                 return fetch(apiUrl)
                     .then(response => response.json())
