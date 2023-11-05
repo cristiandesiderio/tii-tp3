@@ -3,6 +3,7 @@
     "start": "http-server"
   },
   "dependencies": {
+    "aframe-text-geometry-component": "^0.5.2",
     "http-server": "^14.1.1"
   }
 }
