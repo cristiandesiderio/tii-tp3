@@ -15,101 +15,103 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/dev/aframe/build/aframe-ar.js"></script>
     <script src="https://unpkg.com/aframe-text-geometry-component/dist/aframe-text-geometry-component.min.js"></script>
 
-    <script>
-        // Espera a que la escena se cargue
-        document.querySelector('a-scene').addEventListener('loaded', function () {
-            // Espera a que el marcador se encuentre
-            document.querySelector('#weatherMarker').addEventListener('markerFound', function () {
-                // Hace la consulta a la API de OpenWeatherMap y actualiza el texto
-                getWeatherData().then(function (clima) {
-                    console.log(clima)
-                    const textElement = document.querySelector('#temperatureText');
-                    textElement.setAttribute('text-geometry', "value: " + Math.round(clima.temp) + '°C');
-                    const sphereElement = document.querySelector('#temperatureSphere');
-                    var color = '#87CEEB';
-                    var condicion = clima.condicion;
-                    switch (condicion) {
-                        case (condicion >= 200 && condicion < 300):
-                            //Thunderstorm
-                            color = '#3d4f61'
-                            break;
-                        case (condicion >= 300 && condicion < 500):
-                            //Drizzle
-                            color = '#a3b1bf'
-                            break;
-                        case (condicion >= 500 && condicion < 600):
-                            //Rain
-                            color = '#708090'
-                            break;
-                        case (condicion >= 700 && condicion < 800):
-                            //Atmosphere
-                            color = '#B0C4DE'
-                            break;
-                        case (condicion = 800):
-                            //Clear
-                            color = '#87CEEB'
-                            break;
-                        case (condicion > 800):
-                            //Clear
-                            color = '#dcf3fc'
-                            break;
-                        default:
-                            color = '#87CEEB';
-                    }
-                    sphereElement.setAttribute('color', color);
-                    sphereElement.setAttribute('visible', true);
-                    textElement.setAttribute('visible', true);
-                });
-            });
-        });
 
-        // Función para consultar la API de OpenWeatherMap
-        function getWeatherData() {
-            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=-34.9215&lon=-57.9545&appid=5dd5b895dbbb3e052c2aa0c1586a263b&units=metric`;
-
-            return fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    return {
-
-                        temp: data.main.temp,
-                        condicion: data.weather[0].id
-                    };
-                })
-                .catch(error => {
-                    console.error('Error al obtener datos meteorológicos:', error);
-                    return 'N/A';
-                });
-        }
-    </script>
 </head>
 
 <body>
 
 
     <!-- Escena -->
-    <a-scene markerhandler embedded arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;' vr-mode-ui="enabled: false" device-orientation-permission-ui>
+    <a-scene markerhandler embedded
+        arjs='sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'
+        vr-mode-ui="enabled: false" device-orientation-permission-ui>
         <!-- Luz para la escena -->
         <a-light type="directional" position="-5 5 5" target="#weatherMarker"></a-light>
         <a-assets>
-            <a-asset-item id="optimerBoldFont" src="https://rawgit.com/mrdoob/three.js/dev/examples/fonts/optimer_bold.typeface.json"></a-asset-item>
-          </a-assets>
+            <a-asset-item id="optimerBoldFont"
+                src="https://rawgit.com/mrdoob/three.js/dev/examples/fonts/optimer_bold.typeface.json"></a-asset-item>
+        </a-assets>
 
         <a-marker type="pattern" url="markers/temp.patt" id="weatherMarker">
             <a-entity position="0 0.25 0">
                 <a-sphere id="temperatureSphere" radius="0.25" color="orange" position="0 1 0"
                     shadow="cast: true; receive: true"></a-sphere>
 
-                <a-entity id="temperatureText" text-geometry="value: Temp; font: #optimerBoldFont" material="color: orange;" position="-0.75 0 0"
-                    shadow="cast: true; receive: true"></a-entity>
+                <a-entity id="temperatureText" text-geometry="value: Temp; font: #optimerBoldFont"
+                    material="color: orange;" position="-0.75 0 0" shadow="cast: true; receive: true"></a-entity>
             </a-entity>
         </a-marker>
 
         <a-entity camera></a-entity>
 
-        
-    </a-scene>
+        <script>
+            // Espera a que la escena se cargue
+            document.querySelector('a-scene').addEventListener('loaded', function () {
+                // Espera a que el marcador se encuentre
+                document.querySelector('#weatherMarker').addEventListener('markerFound', function () {
+                    // Hace la consulta a la API de OpenWeatherMap y actualiza el texto
+                    getWeatherData().then(function (clima) {
+                        const textElement = document.querySelector('#temperatureText');
+                        textElement.setAttribute('text-geometry', "value: " + Math.round(clima.temp) + '°C');
+                        const sphereElement = document.querySelector('#temperatureSphere');
+                        var color = '#87CEEB';
+                        var condicion = clima.condicion;
+                        switch (condicion) {
+                            case (condicion >= 200 && condicion < 300):
+                                //Thunderstorm
+                                color = '#3d4f61'
+                                break;
+                            case (condicion >= 300 && condicion < 500):
+                                //Drizzle
+                                color = '#a3b1bf'
+                                break;
+                            case (condicion >= 500 && condicion < 600):
+                                //Rain
+                                color = '#708090'
+                                break;
+                            case (condicion >= 700 && condicion < 800):
+                                //Atmosphere
+                                color = '#B0C4DE'
+                                break;
+                            case (condicion = 800):
+                                //Clear
+                                color = '#87CEEB'
+                                break;
+                            case (condicion > 800):
+                                //Clear
+                                color = '#dcf3fc'
+                                break;
+                            default:
+                                color = '#87CEEB';
+                        }
+                        sphereElement.setAttribute('color', color);
+                        sphereElement.setAttribute('visible', true);
+                        textElement.setAttribute('visible', true);
+                    });
+                });
+            });
 
+            // Función para consultar la API de OpenWeatherMap
+            function getWeatherData() {
+                const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=-34.9215&lon=-57.9545&appid=5dd5b895dbbb3e052c2aa0c1586a263b&units=metric`;
+
+                return fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        return {
+
+                            temp: data.main.temp,
+                            condicion: data.weather[0].id
+                        };
+                    })
+                    .catch(error => {
+                        console.error('Error al obtener datos meteorológicos:', error);
+                        return 'N/A';
+                    });
+            }
+        </script>
+
+    </a-scene>
 </body>
 
 </html>
